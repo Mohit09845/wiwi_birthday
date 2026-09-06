@@ -167,7 +167,7 @@ const OurSecretsSection = () => {
 
           <div className="pt-2">
             <p className="text-xl sm:text-3xl font-extrabold text-pink-200 font-display text-glow-pink">
-              Your Mumu is for you, my Chuchu! 🫂💋💖
+              Your Mumu is for you, my Chuchu! and let me tell you a secret, I got interest in you long long time before and i used to look at you in groups all the time whenever i open the telegram hahahaha 🫂💋💖
             </p>
           </div>
         </div>
