@@ -16,8 +16,8 @@ const SecretMessageSchema = new mongoose.Schema({
   },
   secretType: {
     type: String,
-    enum: ['love_note', 'birthday_wish', 'secret_confession', 'memory'],
-    default: 'secret_confession'
+    enum: ['secret_thought', 'sweet_note', 'birthday_wish', 'memory'],
+    default: 'secret_thought'
   },
   mood: {
     type: String,
