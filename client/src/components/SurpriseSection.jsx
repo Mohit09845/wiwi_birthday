@@ -5,28 +5,28 @@ import { playSoundEffect } from './AudioControl';
 import { Gift, Sparkles, Heart, ChevronRight, ChevronLeft } from 'lucide-react';
 
 import wiwiSurprise from '../assets/wiwi_surprise.png';
-import wiwiMohit1 from '../assets/wiwi-mohit1.jpg';
-import wiwiMohit2 from '../assets/wiwi-mohit2.jpg';
-import wiwiMohit3 from '../assets/wiwi-mohit3.jpg';
+import chocoEating from '../assets/mohit-choco-eating.png';
+import chocoNature from '../assets/mohit-choco-nature.png';
+import chocoLift from '../assets/mohit-lift-choco.png';
 
 const galleryPhotos = [
   {
     id: 1,
-    url: wiwiMohit1,
-    title: 'Mohit & Choco Eating Moment 🍔',
-    caption: 'Eating delicious snacks and making sweet memories together!'
+    url: chocoEating,
+    title: 'Mohit & Choco Eating Moment 🍫',
+    caption: 'Eating delicious snacks and making the sweetest memories together!'
   },
   {
     id: 2,
-    url: wiwiMohit2,
-    title: 'Mohit & Choco Lift Moment 💕',
-    caption: 'Lifting you up with sweet smiles and joyful moments!'
+    url: chocoLift,
+    title: 'Mohit Lifting Choco 💕',
+    caption: 'You lift me up, and I lift you — always. Happy Birthday Choco! 🎂'
   },
   {
     id: 3,
-    url: wiwiMohit3,
-    title: 'Mohit & Choco Nature Moment 🌸',
-    caption: 'Beautiful nature vibes and lovely sweet memories together!'
+    url: chocoNature,
+    title: 'Mohit & Choco in Nature 🌸',
+    caption: 'Beautiful nature vibes, and even more beautiful moments together!'
   }
 ];
 

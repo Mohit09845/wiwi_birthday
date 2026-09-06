@@ -6,6 +6,7 @@ import WishesFloatingText from './components/WishesFloatingText';
 import CuteStoryTimeline from './components/CuteStoryTimeline';
 import BalloonPop from './components/BalloonPop';
 import SurpriseSection from './components/SurpriseSection';
+import MeetingStorySection from './components/MeetingStorySection';
 import OurSecretsSection from './components/OurSecretsSection';
 import SecretMessageForm from './components/SecretMessageForm';
 import MohitEndingSection from './components/MohitEndingSection';
@@ -67,6 +68,10 @@ function App() {
 
         <div ref={surpriseRef}>
           <SurpriseSection />
+        </div>
+
+        <div>
+          <MeetingStorySection />
         </div>
 
         <div>
