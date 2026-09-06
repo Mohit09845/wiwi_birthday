@@ -4,13 +4,19 @@ const fs = require('fs');
 const path = require('path');
 const SecretMessage = require('../models/SecretMessage');
 const Photo = require('../models/Photo');
+const connectDB = require('../config/db');
 
 // Local persistent JSON storage fallback
-const dataDir = path.join(__dirname, '../data');
+const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production';
+const dataDir = isVercel ? '/tmp/data' : path.join(__dirname, '../data');
 const secretsFile = path.join(dataDir, 'secrets.json');
 
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+try {
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+} catch (err) {
+  console.error('Error creating data directory:', err);
 }
 
 const loadLocalSecrets = () => {
@@ -49,6 +55,8 @@ router.get('/wishes', (req, res) => {
 // POST /api/secrets - Save a secret message from Wiwi to Mohit
 router.post('/secrets', async (req, res) => {
   try {
+    await connectDB(); // Ensure DB is connected for Serverless
+    
     const { message, secretType, mood } = req.body;
     if (!message || message.trim() === '') {
       return res.status(400).json({ error: 'Please write a message or secret!' });
@@ -65,6 +73,7 @@ router.post('/secrets', async (req, res) => {
       });
       savedNote = await newSecret.save();
     } catch (dbErr) {
+      console.error('❌ MONGODB SAVE ERROR:', dbErr);
       // Persistent file backup fallback if DB is disconnected
       savedNote = {
         _id: 'note_' + Date.now(),
@@ -93,6 +102,7 @@ router.post('/secrets', async (req, res) => {
 // GET /api/secrets - Fetch secrets sent to Mohit
 router.get('/secrets', async (req, res) => {
   try {
+    await connectDB(); // Ensure DB is connected for Serverless
     let list = [];
     try {
       list = await SecretMessage.find().sort({ createdAt: -1 });

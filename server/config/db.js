@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+// Vercel Serverless MongoDB Global Cache
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
   try {
     const connStr = process.env.MONGODB_URI;
@@ -8,19 +14,24 @@ const connectDB = async () => {
       return false;
     }
     
-    console.log('🔌 Connecting to MongoDB Atlas...');
-    const conn = await mongoose.connect(connStr, {
-      serverSelectionTimeoutMS: 8000,
-      family: 4 // Force IPv4 to prevent Windows DNS resolution glitches
-    });
-    console.log(`✅ MongoDB Atlas Connected: ${conn.connection.host}`);
+    if (cached.conn) {
+      console.log('⚡ Using cached MongoDB connection');
+      return cached.conn;
+    }
+
+    if (!cached.promise) {
+      console.log('🔌 Connecting to MongoDB Atlas (Cold Start)...');
+      cached.promise = mongoose.connect(connStr, {
+        serverSelectionTimeoutMS: 8000,
+        family: 4 // Force IPv4 to prevent Windows DNS resolution glitches
+      }).then((mongoose) => mongoose);
+    }
+    
+    cached.conn = await cached.promise;
+    console.log(`✅ MongoDB Atlas Connected`);
     return true;
   } catch (error) {
-    console.error('❌ EXACT MONGODB ATLAS ERROR:');
-    console.error('Message:', error.message);
-    console.error('Code:', error.code);
-    console.error('Syscall:', error.syscall);
-    console.error('Full Error Object:', error);
+    console.error('❌ EXACT MONGODB ATLAS ERROR:', error);
     console.warn('⚠️ Continuing with persistent file/in-memory fallback mode.');
     return false;
   }
